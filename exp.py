@@ -6,7 +6,7 @@ import torch
 import pickle
 import logging
 import numpy as np
-from model import IAM4VP
+from model import NPM
 from tqdm import tqdm
 from API import *
 from API.dataloader_sat import SatelliteBenchDataset
