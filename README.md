@@ -7,3 +7,10 @@
 
 </p>
 
+
+---
+
+### Training
+```
+pytohn3 main.py
+```
