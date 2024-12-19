@@ -10,4 +10,4 @@
 ## TODO List
 - [ ] Upload Training Code
 - [ ] Upload Test Code
-- [ ] Upload GeoRing Code
+- [X] Upload GeoRing Code
