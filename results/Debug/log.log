@@ -1,0 +1,42 @@
+2024-08-27 15:13:39,957 - 
+device: 	cuda	
+res_dir: 	./results	
+ex_name: 	Debug	
+use_gpu: 	True	
+gpu: 	0	
+seed: 	1	
+batch_size: 	8	
+val_batch_size: 	8	
+data_root: 	./data/	
+dataname: 	mmnist	
+num_workers: 	8	
+in_shape: 	[6, 4, 512, 512]	
+hid_S: 	64	
+hid_T: 	512	
+N_S: 	4	
+N_T: 	8	
+groups: 	4	
+epochs: 	2000	
+log_step: 	1	
+lr: 	0.002	
+2024-08-27 15:15:47,812 - 
+device: 	cuda	
+res_dir: 	./results	
+ex_name: 	Debug	
+use_gpu: 	True	
+gpu: 	0	
+seed: 	1	
+batch_size: 	8	
+val_batch_size: 	8	
+data_root: 	./data/	
+dataname: 	mmnist	
+num_workers: 	8	
+in_shape: 	[6, 4, 512, 512]	
+hid_S: 	64	
+hid_T: 	512	
+N_S: 	4	
+N_T: 	8	
+groups: 	4	
+epochs: 	2000	
+log_step: 	1	
+lr: 	0.002	
