@@ -92,9 +92,9 @@ class Predictor(nn.Module):
         y = z.reshape(B, T, C, H, W)
         return y
 
-class IAM4VP(nn.Module):
+class NPM(nn.Module):
     def __init__(self, shape_in, hid_S=64, hid_T=512, N_S=4, N_T=6):
-        super(IAM4VP, self).__init__()
+        super(NPM, self).__init__()
         T, C, H, W = shape_in
         self.time_mlp = Time_MLP(dim=64)
         self.time_mlp2 = Time_MLP(dim=64)
@@ -123,7 +123,7 @@ class IAM4VP(nn.Module):
 
 if __name__ == "__main__":
     import numpy as np
-    model = IAM4VP([10,4,512,512])
+    model = NPM([10,4,512,512])
     inputs = torch.randn(2,10, 4, 512, 512)
     inputs2 = torch.randn(2,10, 4, 512, 512)
     pred_list = []
