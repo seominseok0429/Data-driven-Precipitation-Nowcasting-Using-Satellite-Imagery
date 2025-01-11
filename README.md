@@ -1,4 +1,4 @@
-# Data-driven Precipitation Nowcasting Using Satellite Imagery
+# Data-driven Precipitation Nowcasting Using Satellite Imagery (AAAI2025 ORAL)
 ### [Project Page](-) | [Dataset](https://drive.google.com/drive/folders/1VkOtALaj5cqTFkNy5NvXKE4z83elijOh?usp=drive_link) | [Paper](https://arxiv.org/abs/2412.11480) | 
 
 ---
