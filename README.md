@@ -19,5 +19,9 @@ pytohn3 main.py
 ### Citation
 
 ```
-TODO
-```
+@article{park2024data,
+  title={Data-driven Precipitation Nowcasting Using Satellite Imagery},
+  author={Park, Young-Jae and Kim, Doyi and Seo, Minseok and Jeon, Hae-Gon and Choi, Yeji},
+  journal={arXiv preprint arXiv:2412.11480},
+  year={2024}
+}```
