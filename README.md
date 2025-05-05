@@ -13,8 +13,14 @@ For any inquiries regarding the dataset, training code, pre-trained weights, or 
 
 ---
 ## GK2A Preprocessing
+```
+preprocessing.py
+```
 
 ## HSP Preprocessing
+```
+HSP_processing.py
+```
 
 
 ### Training
