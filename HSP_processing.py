@@ -2,63 +2,74 @@ from glob import glob
 import numpy as np
 import os
 import gzip
-from skimage import transform
 from tqdm import tqdm
-from pathlib import Path
 import pathlib
 import datetime
-import shutil
+from scipy.interpolate import griddata
 
-#======================================================================================================================
-rad_HSP_path = 'D:\HSP/'
-rad_HSP_paths = sorted(glob(rad_HSP_path))
-print(rad_HSP_paths)
-radtype = 'HSP'
+# 환경변수 기반 사용자 설정 경로 및 변수
+rad_HSP_path = os.getenv('RAD_HSP_PATH')
+radtype = os.getenv('RAD_TYPE')
 
-initial_time = '202105040940'
-close_time = '202305030930'
+initial_time = os.getenv('INITIAL_TIME')
+close_time = os.getenv('CLOSE_TIME')
 
-time_range = int( (datetime.datetime.strptime(close_time, '%Y%m%d%H%M')
-                   - datetime.datetime.strptime(initial_time, '%Y%m%d%H%M') )/ datetime.timedelta(minutes=10))
-# print(time_range)
+# 시간 범위 계산
+time_range = int((datetime.datetime.strptime(close_time, '%Y%m%d%H%M')
+                  - datetime.datetime.strptime(initial_time, '%Y%m%d%H%M')) / datetime.timedelta(minutes=10))
 
-savepath = 'D:/HSP_train/'
-
-os.makedirs(savepath,exist_ok=True)
+savepath = os.getenv('SAVE_PATH')
+os.makedirs(savepath, exist_ok=True)
 missingdata = []
 
+# 원본 데이터 크기
+original_shape = (1200, 1100)
+
+# 목표 Grid 데이터 크기
+grid_shape = (300, 275)
+
+# 원본 좌표 생성
+y = np.linspace(0, original_shape[0]-1, original_shape[0])
+x = np.linspace(0, original_shape[1]-1, original_shape[1])
+xv, yv = np.meshgrid(x, y)
+
+# 목표 좌표 생성
+grid_y = np.linspace(0, original_shape[0]-1, grid_shape[0])
+grid_x = np.linspace(0, original_shape[1]-1, grid_shape[1])
+grid_xv, grid_yv = np.meshgrid(grid_x, grid_y)
+
 for i in tqdm(range(time_range)):
-    load_path = rad_HSP_path + 'RDR_CMP_HSP_PUB_'+ initial_time + '.bin.gz'
-    # print(load_path)
+    load_path = os.path.join(rad_HSP_path, 'RDR_CMP_HSP_PUB_' + initial_time + '.bin.gz')
     try:
-        with gzip.open(load_path,'rb') as f:
-            radardata = np.frombuffer(f.read(),dtype = np.int16)
+        with gzip.open(load_path, 'rb') as f:
+            radardata = np.frombuffer(f.read(), dtype=np.int16)
+
         radardata = radardata[512:]
-        radardata = radardata.reshape(2881, 2305)  # radar 1440km x 1152km
+        radardata = radardata.reshape(2881, 2305)
         radardata = np.flip(radardata, axis=0)
 
-        # # image cropping
-        # # center = 1200,1121, size 1200,1100
         radardata = radardata[:2880, 1:]
-        radardata = radardata[1200 - 220:1200 + 980, 1121 - 328:1121 + 772]  # (1200,1100) 0.5km resolution
-        radardata = transform.resize(radardata, (300, 275), preserve_range=True)
+        radardata = radardata[1200 - 220:1200 + 980, 1121 - 328:1121 + 772]
+
+        # Griddata로 interpolation
+        points = np.vstack((xv.flatten(), yv.flatten())).T
+        values = radardata.flatten()
+
+        radardata_grid = griddata(points, values, (grid_xv, grid_yv), method='linear')
+
+        radardata_grid = radardata_grid / 100
+        radardata_grid = np.where(radardata_grid < 0, 0, radardata_grid)
 
         input_path_new = pathlib.PureWindowsPath(pathlib.PureWindowsPath(load_path).stem).stem
 
-        radardata = radardata / 100
-        radardata = np.where(radardata < 0, 0, radardata)
-        # radardata = (radardata - 75) / 75 #normalize HSP : 0~150mm
-
-        np.save(savepath + input_path_new, radardata)
+        np.save(os.path.join(savepath, input_path_new), radardata_grid)
 
         loadtimeToDate = datetime.datetime.strptime(initial_time, '%Y%m%d%H%M') + datetime.timedelta(minutes=10)
         initial_time = loadtimeToDate.strftime("%Y%m%d%H%M")
-    except:
-        print(initial_time, 'does not exist')
-        missingdata.append(rad_HSP_path + 'RDR_CMP_HSP_PUB_'+ initial_time + '.bin.gz')
+    except Exception as e:
+        print(f"{initial_time} does not exist: {e}")
+        missingdata.append(load_path)
         loadtimeToDate = datetime.datetime.strptime(initial_time, '%Y%m%d%H%M') + datetime.timedelta(minutes=10)
         initial_time = loadtimeToDate.strftime("%Y%m%d%H%M")
 
-#======================================================================================================================
 print(missingdata)
-~
