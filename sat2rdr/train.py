@@ -48,6 +48,7 @@ parser.add_argument('--out_ch', default=1, type=int, help='output channels')
 
 parser.add_argument('--mid_type', default='resnet', type=str, help='[resnet, van, convnext, vit]')
 parser.add_argument('--act_type', default='relu', type=str, help='relu, silu, gelu')
+parser.add_argument('--norm_type', default='BatchNorm2d', type=str, help='BatchNorm2d, InstanceNorm2d')
 
 parser.add_argument('--gan_loss', default=True, type=bool, help='Enable gan_loss')
 parser.add_argument('--cc_loss', default=True, type=bool, help='Enable gan_loss')
@@ -68,7 +69,7 @@ train_dataloader = torch.utils.data.DataLoader(train_dataset, batch_size=args.ba
 val_dataset = Sat2RrdDataset(dataroot='./dataset/val/', phase='val', channels=args.channels)
 val_dataloader = torch.utils.data.DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=args.num_workers)
 
-model_G = Generator(input_ch=args.in_ch, act_type=args.act_type, mid_type=args.mid_type)
+model_G = Generator(input_ch=args.in_ch, act_type=args.act_type, norm_type=args.norm_type, mid_type=args.mid_type)
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
