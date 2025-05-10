@@ -77,7 +77,7 @@ class Exp:
 
     def _build_model(self):
         args = self.args
-        self.model = IAM4VP(tuple(args.in_shape), args.hid_S,
+        self.model = NPM(tuple(args.in_shape), args.hid_S,
                            args.hid_T, args.N_S, args.N_T).to('cuda')
         self.model = torch.nn.DataParallel(self.model)
 
