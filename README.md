@@ -3,6 +3,8 @@
 
 **Official Note**:
 ```
+Due to my job change, I lost access to the data storage server. I'll restore it as quickly as possible.
+
 For any inquiries regarding the dataset, training code, pre-trained weights, or meeting arrangements, please contact via email at minseok.seo@antlab.co.kr.
 ```
 ---
