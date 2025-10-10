@@ -3,6 +3,15 @@
 
 **Official Note**:
 ```
+2025.10.10
+We moved to a new workplace, and unfortunately all the data was lost because my Google account from the previous institution was deleted, which also prevented me from sharing it.
+
+Therefore, we re-refined and re-uploaded the dataset.
+All of our code, datasets, and documentation have now been migrated to:
+👉 https://huggingface.co/datasets/minseok96/SAR2RDR-Dataset/tree/main
+
+You can find all preprocessing and postprocessing scripts there, along with detailed explanations.
+------------
 Due to my job change, I lost access to the data storage server. I'll restore it as quickly as possible.
 
 For any inquiries regarding the dataset, training code, pre-trained weights, or meeting arrangements, please contact via email at minseok.seo@antlab.co.kr.
